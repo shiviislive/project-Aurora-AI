@@ -42,7 +42,18 @@ function initSocketServer(httpServer) {
     })
 
     io.on("connection", (socket) => {
-        socket.on("ai-message", async (messagePayload) => {
+        socket.on("ai-message", async (payload) => {
+            let messagePayload = payload;
+
+  // Check if the payload is a string and parse it if needed
+  if (typeof messagePayload === 'string') {
+    try {
+      messagePayload = JSON.parse(messagePayload);
+    } catch (error) {
+      console.error("Failed to parse incoming JSON string:", error);
+      return; // Stop execution if JSON is invalid
+    }
+  }
             /* messagePayload = { chat:chatId,content:message text } */
             const [ message, vectors ] = await Promise.all([
                 messageModel.create({
