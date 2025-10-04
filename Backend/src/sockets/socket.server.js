@@ -11,7 +11,7 @@ function initSocketServer(httpServer) {
 
     const io = new Server(httpServer, {
         cors: {
-            origin: "http://localhost:5173",
+           origin: "https://project-aurora-ai.onrender.com",
             allowedHeaders: [ "Content-Type", "Authorization" ],
             credentials: true
         }
